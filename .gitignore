@@ -1,3 +1,5 @@
+Makefile
+src/Makefile
 autom4te.cache
 build
 *~

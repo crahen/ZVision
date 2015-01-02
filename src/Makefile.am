@@ -40,4 +40,16 @@ libZVision_la_SOURCES = \
   cvcolor.cpp \
   cvcontour.cpp \
   cvlabel.cpp \
-  cvtrack.cpp
+  cvtrack.cpp \
+  BB.cpp \
+  BBPredict.cpp \
+  FBTrack.cpp \
+  Median.cpp \
+  DetectionResult.cpp \
+  DetectorCascade.cpp \
+  EnsembleClassifier.cpp \
+  Clustering.cpp \
+  MedianFlowTracker.cpp \
+  NNClassifier.cpp \
+  VarianceFilter.cpp \
+  TLDUtil.cpp

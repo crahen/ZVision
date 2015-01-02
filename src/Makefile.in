@@ -125,7 +125,10 @@ am__installdirs = "$(DESTDIR)$(libdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libZVision_la_DEPENDENCIES =
 am_libZVision_la_OBJECTS = cvaux.lo cvblob.lo cvcolor.lo cvcontour.lo \
-	cvlabel.lo cvtrack.lo
+	cvlabel.lo cvtrack.lo BB.lo BBPredict.lo FBTrack.lo Median.lo \
+	DetectionResult.lo DetectorCascade.lo EnsembleClassifier.lo \
+	Clustering.lo MedianFlowTracker.lo NNClassifier.lo \
+	VarianceFilter.lo TLDUtil.lo
 libZVision_la_OBJECTS = $(am_libZVision_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -394,7 +397,19 @@ libZVision_la_SOURCES = \
   cvcolor.cpp \
   cvcontour.cpp \
   cvlabel.cpp \
-  cvtrack.cpp
+  cvtrack.cpp \
+  BB.cpp \
+  BBPredict.cpp \
+  FBTrack.cpp \
+  Median.cpp \
+  DetectionResult.cpp \
+  DetectorCascade.cpp \
+  EnsembleClassifier.cpp \
+  Clustering.cpp \
+  MedianFlowTracker.cpp \
+  NNClassifier.cpp \
+  VarianceFilter.cpp \
+  TLDUtil.cpp
 
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
@@ -491,6 +506,18 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/BB.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/BBPredict.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Clustering.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/DetectionResult.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/DetectorCascade.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/EnsembleClassifier.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/FBTrack.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Median.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/MedianFlowTracker.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NNClassifier.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/TLDUtil.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/VarianceFilter.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cvaux.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cvblob.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cvcolor.Plo@am__quote@
