@@ -41,6 +41,7 @@ libZVision_la_SOURCES = \
   cvcontour.cpp \
   cvlabel.cpp \
   cvtrack.cpp \
+  CMT.cpp \
   BB.cpp \
   BBPredict.cpp \
   FBTrack.cpp \

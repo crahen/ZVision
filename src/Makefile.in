@@ -125,10 +125,10 @@ am__installdirs = "$(DESTDIR)$(libdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libZVision_la_DEPENDENCIES =
 am_libZVision_la_OBJECTS = cvaux.lo cvblob.lo cvcolor.lo cvcontour.lo \
-	cvlabel.lo cvtrack.lo BB.lo BBPredict.lo FBTrack.lo Median.lo \
-	DetectionResult.lo DetectorCascade.lo EnsembleClassifier.lo \
-	Clustering.lo MedianFlowTracker.lo NNClassifier.lo \
-	VarianceFilter.lo TLDUtil.lo
+	cvlabel.lo cvtrack.lo CMT.lo BB.lo BBPredict.lo FBTrack.lo \
+	Median.lo DetectionResult.lo DetectorCascade.lo \
+	EnsembleClassifier.lo Clustering.lo MedianFlowTracker.lo \
+	NNClassifier.lo VarianceFilter.lo TLDUtil.lo
 libZVision_la_OBJECTS = $(am_libZVision_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -398,6 +398,7 @@ libZVision_la_SOURCES = \
   cvcontour.cpp \
   cvlabel.cpp \
   cvtrack.cpp \
+  CMT.cpp \
   BB.cpp \
   BBPredict.cpp \
   FBTrack.cpp \
@@ -508,6 +509,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/BB.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/BBPredict.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CMT.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Clustering.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/DetectionResult.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/DetectorCascade.Plo@am__quote@
