@@ -9,3 +9,10 @@ mkdir build
 Configure and build:
 cd build
 ../vision/configure && make
+
+# Cross-Compiling
+
+For Raspberry PI:
+
+SYSROOT=<extracted sysroot image>
+configure --host=arm-linux-gnueabihf --with-sysroot=$SYSROOT --prefix=/tmp/test

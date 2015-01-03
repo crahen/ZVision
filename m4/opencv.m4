@@ -29,22 +29,17 @@ dnl TODO: update the checks to only use -lrt when needed
 dnl
 ifdef(AM_DETECT_OPENCV,,[
 
-AC_DEFUN([AM_DETECT_OPENCV],
+AC_DEFUN([AM_REQUIRE_OPENCV],
 [
 
-opencv_explicit="no"
+ opencv_explicit="yes"
+ enable_opencv="yes"
 
- AC_ARG_ENABLE(opencv,
-     AC_HELP_STRING([--enable-opencv],
-                    [Use OpenCV [default=detect]]),
-     [opencv_explicit="yes"], 
-     [enable_opencv="yes"])
-
- AC_ARG_WITH(opencv-prefix,
-  [  --with-opencv-prefix   OpenCV library prefix (optional)],
+ AC_ARG_WITH(opencv,
+  [  --with-opencv           OpenCV prefix [default=detect]],
   [
 
-   if test x$opencv_prefix != x ; then
+   if test x$withval != x ; then
 
      OPENCV_LIBS="-L$withval/lib"
      OPENCV_CXXFLAGS="-I$withval/include"
@@ -61,38 +56,34 @@ opencv_explicit="no"
 
   OPENCV_CXXFLAGS="-DREENTRANT $OPENCV_CXXFLAGS"
 
-  if test x$enable_opencv != xno; then
+  ac_save_LIBS="$LIBS" 
+  ac_save_CXXFLAGS="$CXXFLAGS"
 
-   ac_save_LIBS="$LIBS" 
-   ac_save_CXXFLAGS="$CXXFLAGS"
- 
-   AC_CHECK_HEADER([opencv/cv.h],
-   [AC_MSG_CHECKING([for OpenCV core, imgproc, ml & highgui components])
+  AC_CHECK_HEADER([opencv/cv.h],
+  [AC_MSG_CHECKING([for OpenCV core, imgproc, ml & highgui components])
 
-    LIBS="$ac_save_LIBS $OPENCV_LIBS -lopencv_core -lopencv_imgproc -lopencv_ml -lopencv_highgui"
-    CXXFLAGS="$CXXFLAGS $OPENCV_CXXFLAGS"
+   LIBS="$ac_save_LIBS $OPENCV_LIBS -lopencv_core -lopencv_imgproc -lopencv_ml -lopencv_highgui"
+   CXXFLAGS="$CXXFLAGS $OPENCV_CXXFLAGS"
 
-    AC_TRY_LINK([#include <opencv/cv.h>],
-    [
-      close(0);
-    ],
-    [AC_MSG_RESULT(yes)
-     AC_DEFINE(HAVE_OPENCV,,[defined when OpenCV is available])
-     OPENCV_LIBS="$OPENCV_LIBS -lopencv_core -lopencv_imgproc -lopencv_ml -lopencv_highgui" 
+   AC_TRY_LINK([#include <opencv/cv.h>],
+   [
+     close(0);
+   ],
+   [AC_MSG_RESULT(yes)
+    AC_DEFINE(HAVE_OPENCV,,[defined when OpenCV is available])
+    OPENCV_LIBS="$OPENCV_LIBS -lopencv_core -lopencv_imgproc -lopencv_ml -lopencv_highgui" 
 
-    ],
-    [AC_MSG_RESULT(no)
-    AC_MSG_ERROR("Could not use OpenCV")
-    ])
+   ],
+   [AC_MSG_RESULT(no)
+   AC_MSG_ERROR("Could not use OpenCV")
    ])
+  ])
 
-   AC_SUBST(OPENCV_LIBS)
-   AC_SUBST(OPENCV_CXXFLAGS)
+  AC_SUBST(OPENCV_LIBS)
+  AC_SUBST(OPENCV_CXXFLAGS)
 
-   CXXFLAGS="$ac_save_CXXFLAGS"
-   LIBS="$ac_save_LIBS"
-
- fi
+  CXXFLAGS="$ac_save_CXXFLAGS"
+  LIBS="$ac_save_LIBS"
 
 ])
 ])

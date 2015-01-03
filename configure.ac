@@ -67,30 +67,8 @@ AM_ACLOCAL_INCLUDE(share)
 dnl Check for support
 AC_PROG_CXX
 
-COMPILER_OPTIONS=""
-LINKER_OPTIONS=""
 
-AM_DETECT_OPENCV
-
-dnl Setup compiler/linker options based on the target type
-case "$target" in
-*-*-mingw32*)
-    dnl MingW32 should use native win32 threads
-    ;;
-*-apple-darwin*)
-    dnl Use the Mac multiprocessing library
-    LINKER_OPTIONS="-framework CoreServices"
-    ;;
-*)
-    dnl Assume pthreads
-    if test x"$PTHREAD_CFLAGS" != x; then
-      COMPILER_OPTIONS="$PTHREAD_CFLAGS"
-    fi
-    if test x"$PTHREAD_LIBS" != x; then
-      LINKER_OPTIONS="$PTHREAD_LIBS"
-    fi
-    ;;
-esac
+AM_REQUIRE_OPENCV
 
 dnl Switch to C++ mode and check for needed C++ headers
 AC_LANG_PUSH([C++])
@@ -110,63 +88,28 @@ dnl Header checks
 AC_HEADER_STDC
 AC_CHECK_HEADERS(errno.h)
 
-
-dnl Check for debug-mode
-AC_ARG_ENABLE(debug,
-[  --enable-debug          Enable debug symbols [default=no]],
-
-[
-dnl Enable debug info
-case "$CXX" in
-  *cl.exe)
-    ;;
-  *)
-    CXXFLAGS="$CXXFLAGS -g"
-esac
-],[
-dnl Disable debug info
-case "$CXX" in
-  *cl.exe)
-    CXXFLAGS="$CXXFLAGS /D NDEBUG"
-    ;;
-  *)
-
-    CXXFLAGS="$CXXFLAGS -DNDEBUG"
-esac
-])
-
-dnl Select implementation
-AC_MSG_CHECKING(for target implementation)
-ZV_TYPE="auto"
-
-AC_ARG_ENABLE(win32,
-[  --enable-win32          Select WIN32 implementation [default=autodetect]],
-[
-  if test $ZV_TYPE != auto; then
-     AC_MSG_ERROR(Select one implementation)
-  fi
-  ZV_TYPE="win32"
-  COMPILER_OPTIONS="$COMPILER_OPTIONS -DZV_WIN32"
-])
-
-dnl Configure targets
-SUBDIRS="src"
-
 dnl Configure the final compiler & linker options
-COMPILER_OPTIONS="$COMPILER_OPTIONS $CXXFLAGS"
-LINKER_OPTIONS="$LINKER_OPTIONS $LDFLAGS"
-
-dnl Configured flags for compiling ZThreads
+if [[ "x$with_sysroot" != "x" ]] ; then
+  CXXFLAGS="-I$with_sysroot/usr/include $CXXFLAGS"
+  LDFLAGS="-I$with_sysroot/usr/lib $LDFLAGS"
+fi
+COMPILER_OPTIONS="$COMPILER_OPTIONS $CXXFLAGS $OPENCV_CXXFLAGS"
+LINKER_OPTIONS="$LINKER_OPTIONS $LDFLAGS $OPENCV_LIBS"
 AC_SUBST(LINKER_OPTIONS)
 AC_SUBST(COMPILER_OPTIONS)
 
 dnl Extra variables users can customize
+EXTRA_COMPILER_OPTIONS=""
+EXTRA_LINKER_OPTIONS=""
 AC_SUBST(EXTRA_LINKER_OPTIONS)
 AC_SUBST(EXTRA_COMPILER_OPTIONS)
 
 AM_PROG_LIBTOOL
 
+dnl Configure targets
+SUBDIRS="src"
 AC_SUBST(SUBDIRS)
 
 AC_CONFIG_FILES([Makefile src/Makefile share/zvision-config share/zvision.spec])
+
 AC_OUTPUT
