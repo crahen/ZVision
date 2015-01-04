@@ -1,18 +1,37 @@
-# Getting Started
+GETTING STARTED
 
-Clone the repository:
-git clone git@github.com:crahen/vision.git
+  Clone the repository with either:
 
-Create a workspace outside the repository:
-mkdir build
+    git clone git@github.com:crahen/vision.git
+    git clone https://github.com/crahen/ZVision
 
-Configure and build:
-cd build
-../vision/configure && make
 
-# Cross-Compiling
+  Create a work space to build in without littering object files all over the source tree:
 
-For Raspberry PI:
+    mkdir build
+    cd build
 
-SYSROOT=<extracted sysroot image>
-configure --host=arm-linux-gnueabihf --with-sysroot=$SYSROOT --prefix=/tmp/test
+
+  Configure and build:
+
+    ../configure
+    make
+
+
+CROSS-COMPILING
+
+  To cross-compile put the relevant toolchain in your PATH and set the appropriate --host and
+  --with-sysroot options. For example, to compile for the Raspberry PI:
+
+
+    PATH=<toolchain-prefix>/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin:$PATH
+    SYSROOT=<location of sysroot image>
+    configure --host=arm-linux-gnueabihf --with-sysroot=$SYSROOT --prefix=/tmp/test
+
+
+RE-CONFIGURING
+
+  To regenerate the autotools files after updating Makefile.am or configure.ac use:
+
+    autoreconf -ivf
+

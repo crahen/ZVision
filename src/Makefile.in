@@ -87,7 +87,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
 	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
 	$(top_srcdir)/m4/acinclude.m4 $(top_srcdir)/m4/opencv.m4 \
-	$(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/rpi-userland.m4 $(top_srcdir)/m4/ncurses.m4 \
+	$(top_srcdir)/m4/sysroot.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -123,12 +124,12 @@ am__uninstall_files_from_dir = { \
   }
 am__installdirs = "$(DESTDIR)$(libdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
-libZVision_la_DEPENDENCIES =
+libZVision_la_LIBADD =
 am_libZVision_la_OBJECTS = cvaux.lo cvblob.lo cvcolor.lo cvcontour.lo \
-	cvlabel.lo cvtrack.lo CMT.lo BB.lo BBPredict.lo FBTrack.lo \
-	Median.lo DetectionResult.lo DetectorCascade.lo \
-	EnsembleClassifier.lo Clustering.lo MedianFlowTracker.lo \
-	NNClassifier.lo VarianceFilter.lo TLDUtil.lo
+	cvlabel.lo cvtrack.lo BB.lo BBPredict.lo FBTrack.lo Median.lo \
+	DetectionResult.lo DetectorCascade.lo EnsembleClassifier.lo \
+	Clustering.lo MedianFlowTracker.lo NNClassifier.lo \
+	VarianceFilter.lo TLDUtil.lo
 libZVision_la_OBJECTS = $(am_libZVision_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -244,7 +245,9 @@ am__relativize = \
   reldir="$$dir2"
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
+AM_CXXFLAGS = @AM_CXXFLAGS@
 AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
+AM_LDFLAGS = @AM_LDFLAGS@
 AR = @AR@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
@@ -254,7 +257,6 @@ CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
 COMPILER_OPTIONS = @COMPILER_OPTIONS@
-CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
 CXXCPP = @CXXCPP@
@@ -296,6 +298,8 @@ LT_REVISION = @LT_REVISION@
 MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
+NCURSES_CXXFLAGS = @NCURSES_CXXFLAGS@
+NCURSES_LIBS = @NCURSES_LIBS@
 NM = @NM@
 NMEDIT = @NMEDIT@
 OBJDUMP = @OBJDUMP@
@@ -313,11 +317,15 @@ PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 RANLIB = @RANLIB@
+RPI_USERLAND_CXXFLAGS = @RPI_USERLAND_CXXFLAGS@
+RPI_USERLAND_LIBS = @RPI_USERLAND_LIBS@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
 SUBDIRS = .
+SYSROOT_CXXFLAGS = @SYSROOT_CXXFLAGS@
+SYSROOT_LIBS = @SYSROOT_LIBS@
 VERSION = @VERSION@
 ZV_BINARY_AGE = @ZV_BINARY_AGE@
 ZV_INTERFACE_AGE = @ZV_INTERFACE_AGE@
@@ -382,15 +390,11 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AM_CXXFLAGS = -I$(top_srcdir)/include @COMPILER_OPTIONS@ @EXTRA_COMPILER_OPTIONS@
-AM_CPPFLAGS = -I$(top_srcdir)/include @COMPILER_OPTIONS@ @EXTRA_COMPILER_OPTIONS@
 lib_LTLIBRARIES = libZVision.la
-libZVision_la_LIBADD = @LINKER_OPTIONS@ @EXTRA_LINKER_OPTIONS@
 libZVision_la_LDFLAGS = \
         -release $(LT_RELEASE)  \
         -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
 
-LIBADD = @LINKER_OPTIONS@ @EXTRA_LINKER_OPTIONS@
 libZVision_la_SOURCES = \
   cvaux.cpp \
   cvblob.cpp \
@@ -398,7 +402,6 @@ libZVision_la_SOURCES = \
   cvcontour.cpp \
   cvlabel.cpp \
   cvtrack.cpp \
-  CMT.cpp \
   BB.cpp \
   BBPredict.cpp \
   FBTrack.cpp \
@@ -509,7 +512,6 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/BB.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/BBPredict.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CMT.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Clustering.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/DetectionResult.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/DetectorCascade.Plo@am__quote@

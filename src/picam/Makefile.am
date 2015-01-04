@@ -19,30 +19,21 @@
 
 SUBDIRS=.
 
-libdir=$(prefix)/lib
+bindir=$(prefix)/bin
 
-lib_LTLIBRARIES = libZVision.la
-libZVision_la_LDFLAGS= \
-        -release $(LT_RELEASE)  \
-        -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
+bin_PROGRAMS = picam
 
+picam_CXXFLAGS = \
+  $(AM_CXXFLAGS) \
+  $(SYSROOT_CXXFLAGS) \
+  $(NCURSES_CXXFLAGS) \
+  $(RPI_USERLAND_CXXFLAGS) 
 
-libZVision_la_SOURCES = \
-  cvaux.cpp \
-  cvblob.cpp \
-  cvcolor.cpp \
-  cvcontour.cpp \
-  cvlabel.cpp \
-  cvtrack.cpp \
-  BB.cpp \
-  BBPredict.cpp \
-  FBTrack.cpp \
-  Median.cpp \
-  DetectionResult.cpp \
-  DetectorCascade.cpp \
-  EnsembleClassifier.cpp \
-  Clustering.cpp \
-  MedianFlowTracker.cpp \
-  NNClassifier.cpp \
-  VarianceFilter.cpp \
-  TLDUtil.cpp
+picam_LDFLAGS = \
+  -lrt \
+  $(SYSROOT_LIBS) \
+  $(NCURSES_LIBS) \
+  $(RPI_USERLAND_LIBS) 
+
+picam_SOURCES = \
+  picam.cpp

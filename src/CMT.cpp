@@ -2,6 +2,7 @@
 #include <stdio.h>
 #define _USE_MATH_DEFINES
 #include <cmath>
+#include <opencv2/core/core.hpp>
 
 #if __cplusplus < 201103L //test if c++11
 

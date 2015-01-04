@@ -17,50 +17,49 @@ dnl AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABI
 dnl WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 dnl CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-ifdef(AM_DETECT_OPENCV,,[
+ifdef(AM_DETECT_NCURSES,,[
 
-AC_DEFUN([AM_DETECT_OPENCV],
+AC_DEFUN([AM_DETECT_NCURSES],
 [
  AC_REQUIRE([AM_DETECT_SYSROOT])
- AC_ARG_WITH(opencv,
-  [  --with-opencv           OpenCV prefix [default=detect]],
+ AC_ARG_WITH(ncurses,
+  [  --with-ncurses          ncurses prefix [default=detect]],
   [
 
    if test x$withval != x ; then
-     OPENCV_LIBS="-L$withval/lib"
-     OPENCV_CXXFLAGS="-I$withval/include"
+     NCURSES_LIBS="-L$withval/lib"
+     NCURSES_CXXFLAGS="-I$withval/include"
    fi
 
   ], 
-  [OPENCV_LIBS=""
-   OPENCV_CXXFLAGS=""
+  [NCURSES_LIBS=""
+   NCURSES_CXXFLAGS=""
   ])
 
-  OPENCV_CXXFLAGS="$OPENCV_CXXFLAGS"
-  OPENCV_LIBS="$OPENCV_LIBS -lopencv_core -lopencv_imgproc -lopencv_ml -lopencv_highgui"
+  NCURSES_CXXFLAGS="$NCURSES_CXXFLAGS"
+  NCURSES_LIBS="$NCURSES_LIBS -lncurses"
 
   ac_save_LIBS="$LIBS" 
   ac_save_CXXFLAGS="$CXXFLAGS"
 
-  AC_CHECK_HEADER([opencv/cv.h],
-  [AC_MSG_CHECKING([for OpenCV core, imgproc, ml & highgui components])
+  AC_CHECK_HEADER([nucrses.h],
+  [AC_MSG_CHECKING([for ncurses])
 
-   LIBS="$LIBS $SYSROOT_LIBS $OPENCV_LIBS -lopencv_core -lopencv_imgproc -lopencv_ml -lopencv_highgui"
-   CXXFLAGS="$CXXFLAGS $SYSROOT_CXXFLAGS $OPENCV_CXXFLAGS"
+   LIBS="$LIBS $SYSROOT_LIBS $NCURSES_LIBS -lncurses"
+   CXXFLAGS="$CXXFLAGS $SYSROOT_CXXFLAGS $NCURSES_CXXFLAGS"
 
-   AC_TRY_LINK([#include <opencv/cv.h>],
+   AC_TRY_LINK([#include <ncurses.h>],
    [
    ],
    [AC_MSG_RESULT(yes)
-    AC_DEFINE(HAVE_OPENCV,,[defined when OpenCV is available])
+    AC_DEFINE(HAVE_NCURSES,,[defined when ncurses is available])
    ],
    [AC_MSG_RESULT(no)
-   AC_MSG_ERROR("Could not use OpenCV")
    ])
   ])
 
-  AC_SUBST(OPENCV_LIBS)
-  AC_SUBST(OPENCV_CXXFLAGS)
+  AC_SUBST(NCURSES_LIBS)
+  AC_SUBST(NCURSES_CXXFLAGS)
 
   CXXFLAGS="$ac_save_CXXFLAGS"
   LIBS="$ac_save_LIBS"

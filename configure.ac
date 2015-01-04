@@ -21,6 +21,9 @@ AC_REVISION($Revision: 1.14 $ZV_VERSION $)
 
 m4_include([m4/acinclude.m4])
 m4_include([m4/opencv.m4])
+m4_include([m4/rpi-userland.m4])
+m4_include([m4/ncurses.m4])
+m4_include([m4/sysroot.m4])
 
 
 AC_INIT([ZVision], [0.1.0])
@@ -30,6 +33,8 @@ AC_COPYRIGHT([Eric Crahen, 2014])
 
 AC_CANONICAL_TARGET
 AC_CANONICAL_HOST
+
+AC_DISABLE_STATIC
 
 dnl Version information
 ZV_MAJOR_VERSION=0
@@ -68,8 +73,6 @@ dnl Check for support
 AC_PROG_CXX
 
 
-AM_REQUIRE_OPENCV
-
 dnl Switch to C++ mode and check for needed C++ headers
 AC_LANG_PUSH([C++])
 
@@ -88,21 +91,26 @@ dnl Header checks
 AC_HEADER_STDC
 AC_CHECK_HEADERS(errno.h)
 
-dnl Configure the final compiler & linker options
-if [[ "x$with_sysroot" != "x" ]] ; then
-  CXXFLAGS="-I$with_sysroot/usr/include $CXXFLAGS"
-  LDFLAGS="-I$with_sysroot/usr/lib $LDFLAGS"
-fi
-COMPILER_OPTIONS="$COMPILER_OPTIONS $CXXFLAGS $OPENCV_CXXFLAGS"
-LINKER_OPTIONS="$LINKER_OPTIONS $LDFLAGS $OPENCV_LIBS"
+dnl Detect sysroot for cross-compiling --with-sysroot
+AM_DETECT_SYSROOT
+AM_DETECT_RPI_USERLAND
+AM_DETECT_NCURSES
+AM_DETECT_OPENCV
+
+dnl Configure compiler and linker
+COMPILER_OPTIONS="$COMPILER_OPTIONS $SYSROOT_CXXFLAGS $LIBSTDC_CXXFLAGS $OPENCV_CXXFLAGS $RPI_USERLAND_CXXFLAGS $NCURSES_CXXFLAGS"
+LINKER_OPTIONS="$LINKER_OPTIONS $SYSROOT_LIBS $LIBSTDC_LIBS $OPENCV_LIBS $RPI_USERLAND_LIBS $NCURSES_LIBS"
 AC_SUBST(LINKER_OPTIONS)
 AC_SUBST(COMPILER_OPTIONS)
 
-dnl Extra variables users can customize
+dnl Extra variables users can hook
 EXTRA_COMPILER_OPTIONS=""
 EXTRA_LINKER_OPTIONS=""
 AC_SUBST(EXTRA_LINKER_OPTIONS)
 AC_SUBST(EXTRA_COMPILER_OPTIONS)
+
+AC_SUBST([AM_CXXFLAGS],[$COMPILER_OPTIONS])
+AC_SUBST([AM_LDFLAGS],[$LINKER_OPTIONS])
 
 AM_PROG_LIBTOOL
 
@@ -110,6 +118,6 @@ dnl Configure targets
 SUBDIRS="src"
 AC_SUBST(SUBDIRS)
 
-AC_CONFIG_FILES([Makefile src/Makefile share/zvision-config share/zvision.spec])
+AC_CONFIG_FILES([Makefile src/Makefile src/picam/Makefile share/zvision-config])
 
 AC_OUTPUT

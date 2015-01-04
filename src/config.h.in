@@ -12,8 +12,14 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
+/* defined when ncurses is available */
+#undef HAVE_NCURSES
+
 /* defined when OpenCV is available */
 #undef HAVE_OPENCV
+
+/* defined when userland interface is available */
+#undef HAVE_RPI_USERLAND
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
